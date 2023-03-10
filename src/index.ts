@@ -6,8 +6,7 @@ import { v4 } from "uuid";
 import semver from "semver";
 import { unzipSync, deflateSync } from "zlib";
 import LruCache from "lru-cache";
-import { unwatchFile, watchFile } from "fs";
-import { readFile, writeFile } from "fs/promises";
+import { unwatchFile, watchFile, readFile, writeFile } from "fs";
 
 import { Song } from "./ns/song";
 import { Internal } from "./ns/internal";
@@ -148,7 +147,7 @@ export class Ableton extends EventEmitter implements ConnectionEventEmitter {
     } else {
       return Promise.race([
         new Promise((res) => this.once("connect", res)),
-        this.internal.get("ping").catch(() => new Promise(() => {})),
+        this.internal.get("ping").catch(() => new Promise(() => { })),
       ]);
     }
   }
@@ -189,7 +188,7 @@ export class Ableton extends EventEmitter implements ConnectionEventEmitter {
         this.serverPort = Number(serverPort.toString());
         this.logger?.info("Server port:", { port: this.serverPort });
         res();
-      } catch (e) {}
+      } catch (e) { }
 
       // Set up a watcher in case the server port changes
       watchFile(this.serverPortFile, async (curr) => {
@@ -254,7 +253,7 @@ export class Ableton extends EventEmitter implements ConnectionEventEmitter {
           );
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }
 
   /** Closes the client */
